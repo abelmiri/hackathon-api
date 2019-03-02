@@ -1,7 +1,7 @@
 {
-  "name": "inja-unja",
+  "name": "hackathon-api",
   "version": "0.0.1",
-  "description": "inja unja api project",
+  "description": "hackathon restful api project",
   "main": "index.js",
   "author": "Abolfazl Miri",
   "license": "ISC",
