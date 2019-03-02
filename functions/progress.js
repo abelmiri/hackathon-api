@@ -4,16 +4,15 @@ let Connection = require("../connection")
 
 ////////////////////////////////////// MODULES_IMPORTS_ENDED
 
-
 const select = ({response}) =>
 {
     let request = new mssql.Request(Connection.connection)
-    request.query(`select * from Reception`, (error, records) =>
+    request.query(`select * from Progress`, (error, records) =>
     {
         if (error) response.send({state: -1, log: "DATA_BASE_ERROR", form: error})
         else
         {
-            response.send({state: 1, log: "SUCCESSFUL_GET_ALL_RECEPTION", form: records.recordset})
+            response.send({state: 1, log: "SUCCESSFUL_GET_ALL_PROGRESS", form: records.recordset})
         }
     })
 }

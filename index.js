@@ -15,6 +15,11 @@ const User = require("./routers/User")
 const Personnel = require("./routers/Personnel")
 const Prescription = require("./routers/Prescription")
 const Reception = require("./routers/Reception")
+const Bed = require("./routers/Bed")
+const Disease = require("./routers/Disease")
+const Patient = require("./routers/Patient")
+const Progress = require("./routers/Progress")
+const NursePatient = require("./routers/NursePatient")
 
 const Data = require("./data")
 
@@ -24,6 +29,11 @@ app.use("/user", User)
 app.use("/personnel", Personnel)
 app.use("/prescription", Prescription)
 app.use("/reception", Reception)
+app.use("/bed", Bed)
+app.use("/disease", Disease)
+app.use("/patient", Patient)
+app.use("/progress", Progress)
+app.use("/nurse_patient", NursePatient)
 app.use("/", Root)
 
 ////////////////////////////////////// ROUTERS_CALLS_ENDED
