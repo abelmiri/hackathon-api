@@ -17,12 +17,12 @@ user_router.route("/login")
         res.setHeader("Access-Control-Allow-Origin", "*")
         let data = {...req.body}
 
-        data.phone && data.password ?
+        data.phone_number && data.password ?
             login({
-                phone: data.phone,
+                phone: data.phone_number,
                 password: data.password,
-                response: res
-            }) : res.send({state: -1, log: "LOGIN_PARAMETERS_UNDEFINED"})
+                response: res,
+            }) : res.send({state: -1, log: "LOGIN_PARAMETERS_UNDEFINED", form: data})
     })
 
 module.exports = user_router

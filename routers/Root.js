@@ -13,6 +13,15 @@ root_router.route("/")
         // res.sendFile(path.join(__dirname.slice(0, -8), `/200/index.html`))
     })
 
+// root_router.route("/shit")
+//     .post((req, res) =>
+//     {
+//         res.setHeader("Access-Control-Allow-Origin", "*")
+//         console.log("SHIT IS:",req)
+//         console.log("DONE SHIT")
+//     })
+//
+
 root_router.route("/*")
     .get((req, res) =>
     {
