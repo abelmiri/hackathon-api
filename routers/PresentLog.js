@@ -32,6 +32,7 @@ user_router.route("/")
                 type: data.type,
                 response: res,
                 // Optional Data
+                prescription_id: data.prescription_id,
                 description: data.description,
             })
         } else res.send({state: -1, log: "CREATE_PRESENT_LOG_PARAMETERS_UNDEFINED", form: data})

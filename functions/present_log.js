@@ -17,7 +17,7 @@ const select = ({response}) =>
     })
 }
 
-const insert = ({personnel_id, reception_id, type, description, response}) =>
+const insert = ({personnel_id, reception_id, type, prescription_id, description, response}) =>
 {
     let request = new mssql.Request(Connection.connection)
 
@@ -29,10 +29,11 @@ const insert = ({personnel_id, reception_id, type, description, response}) =>
     let create_date = `${Jdate.date[0]}/${Jdate.date[1]}/${Jdate.date[2]}`
 
     request.query(`insert into PresentLog 
-        (personnel_id, reception_id, type, description, create_time, create_date) 
+        (personnel_id, reception_id, type, description, prescription_id, create_time, create_date) 
         output inserted.id
         values (N'${personnel_id}', N'${reception_id}', N'${type}'
         ${description ? `, N'${description}'` : ",NULL"}
+        ${prescription_id ? `, N'${prescription_id}'` : ",NULL"}
         ,N'${create_time}'
         ,N'${create_date}'
         )`, (error, records) =>
