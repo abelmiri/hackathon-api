@@ -1,4 +1,4 @@
-// let JDate = require("jalali-date")
+let JDate = require("jalali-date")
 let mssql = require("mssql")
 let Connection = require("../connection")
 
@@ -13,6 +13,37 @@ const select = ({response}) =>
         else
         {
             response.send({state: 1, log: "SUCCESSFUL_GET_ALL_RECEPTION", form: records.recordset})
+        }
+    })
+}
+
+const insert = ({patient_id, disease_id, description, bed_id, state, response}) =>
+{
+    let request = new mssql.Request(Connection.connection)
+
+    let Jdate = new JDate()
+    let dateObj = new Date()
+
+    /** @namespace Jdate.date */
+    let create_time = `${dateObj.getHours()}:${dateObj.getMinutes()}`
+    let create_date = `${Jdate.date[0]}/${Jdate.date[1]}/${Jdate.date[2]}`
+
+    request.query(`insert into Reception 
+        (patient_id, disease_id, description, bed_id, state, create_time, create_date) 
+        output inserted.id
+        values (N'${patient_id}'
+        ${disease_id ? `, N'${disease_id}'` : ",NULL"}
+        ${description ? `, N'${description}'` : ",NULL"}
+        ${bed_id ? `, N'${bed_id}'` : ",NULL"}
+        ${state ? `, N'${state}'` : ",'1'"}
+        ,N'${create_time}'
+        ,N'${create_date}'
+        )`, (error, records) =>
+    {
+        if (error) response.send({state: -2, log: "DATA_BASE_ERROR", form: error})
+        else
+        {
+            response.send({state: 1, log: "SUCCESSFUL_CREATE_PRESCRIPTION", form: records.recordset[0]})
         }
     })
 }
@@ -41,7 +72,12 @@ const select_by_disease_id = ({disease_id, response}) =>
                             records1.recordset[0] && patients.push(records1.recordset[0])
                             if (receptions.length - 1 === index)
                             {
-                                response.send({state: 1, log: "SUCCESSFUL_GET_ALL_RECEPTION", form: {receptions: receptions, patients: patients}})
+                                patients.length === receptions.length ?
+                                    response.send({state: 1, log: "SUCCESSFUL_GET_ALL_RECEPTION_FIRST", form: {receptions: receptions, patients: patients}})
+                                    : setTimeout(() =>
+                                    {
+                                        response.send({state: 1, log: "SUCCESSFUL_GET_ALL_RECEPTION_SECOND", form: {receptions: receptions, patients: patients}})
+                                    }, 250)
                             }
                         }
                     })
@@ -58,5 +94,6 @@ const select_by_disease_id = ({disease_id, response}) =>
 module.exports =
     {
         select: select,
+        insert: insert,
         select_by_disease_id: select_by_disease_id,
     }

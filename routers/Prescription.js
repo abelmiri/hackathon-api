@@ -7,7 +7,7 @@ let user_router = express.Router()
 
 ////////////////////////////////////// ROUTERS_CONFIG_ENDED
 
-const {select, insert} = require("../functions/prescription")
+const {select, insert, select_by_personnel_id} = require("../functions/prescription")
 
 ////////////////////////////////////// FUNCTION_CALLS_ENDED
 
@@ -38,9 +38,24 @@ user_router.route("/")
                 notification: data.notification,
                 description: data.description,
                 interval: data.interval,
+                is_static: data.is_static,
                 is_done: data.is_done,
             })
         } else res.send({state: -1, log: "CREATE_PRESCRIPTION_PARAMETERS_UNDEFINED", form: data})
+    })
+
+user_router.route("/personnel_id")
+    .post((req, res) =>
+    {
+        res.setHeader("Access-Control-Allow-Origin", "*")
+
+        let data = {...req.body}
+
+        /** @namespace data.disease_id */
+        if (data.personnel_id !== undefined)
+        {
+            select_by_personnel_id({personnel_id: data.personnel_id, response: res})
+        } else res.send({state: -1, log: "GET_PRESCRIPTION_BY_PERSONNEL_ID_PARAMETER_UNDEFINED", form: data})
     })
 
 module.exports = user_router

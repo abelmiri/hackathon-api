@@ -52,8 +52,22 @@ const select = ({response}) =>
     })
 }
 
+const select_by_personnel_role = ({personnel_role, response}) =>
+{
+    let request = new mssql.Request(Connection.connection)
+    request.query(`select * from Personnel where role = N'${personnel_role}'`, (error0, records0) =>
+    {
+        if (error0) response.send({state: -2, log: "DATA_BASE_ERROR", form: error0})
+        else
+        {
+            response.send({state: 1, log: "GET_PERSONNEL_BY_ROLE", form: records0.recordset})
+        }
+    })
+}
+
 module.exports =
     {
         login: login,
         select: select,
+        select_by_personnel_role: select_by_personnel_role,
     }
