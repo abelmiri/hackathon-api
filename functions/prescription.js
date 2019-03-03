@@ -62,9 +62,37 @@ const select_by_personnel_id = ({personnel_id, response}) =>
     })
 }
 
+const select_by_reception_id = ({reception_id, response}) =>
+{
+    let request = new mssql.Request(Connection.connection)
+    request.query(`select * from Prescription where reception_id = N'${reception_id}'`, (error0, records0) =>
+    {
+        if (error0) response.send({state: -2, log: "DATA_BASE_ERROR", form: error0})
+        else
+        {
+            response.send({state: 1, log: "GET_PERSONNEL_PRESCRIPTION", form: records0.recordset})
+        }
+    })
+}
+
+const select_by_id = ({id, response}) =>
+{
+    let request = new mssql.Request(Connection.connection)
+    request.query(`select * from Prescription where id = N'${id}'`, (error0, records0) =>
+    {
+        if (error0) response.send({state: -2, log: "DATA_BASE_ERROR", form: error0})
+        else
+        {
+            response.send({state: 1, log: "GET_PERSONNEL_PRESCRIPTION", form: records0.recordset[0] ? records0.recordset[0] : null})
+        }
+    })
+}
+
 module.exports =
     {
         select: select,
+        select_by_id: select_by_id,
         insert: insert,
         select_by_personnel_id: select_by_personnel_id,
+        select_by_reception_id: select_by_reception_id,
     }

@@ -7,7 +7,7 @@ let user_router = express.Router()
 
 ////////////////////////////////////// ROUTERS_CONFIG_ENDED
 
-const {select, insert, select_by_personnel_id} = require("../functions/prescription")
+const {select, select_by_id, insert, select_by_personnel_id, select_by_reception_id} = require("../functions/prescription")
 
 ////////////////////////////////////// FUNCTION_CALLS_ENDED
 
@@ -56,6 +56,28 @@ user_router.route("/personnel_id")
         {
             select_by_personnel_id({personnel_id: data.personnel_id, response: res})
         } else res.send({state: -1, log: "GET_PRESCRIPTION_BY_PERSONNEL_ID_PARAMETER_UNDEFINED", form: data})
+    })
+
+user_router.route("/reception_id")
+    .post((req, res) =>
+    {
+        res.setHeader("Access-Control-Allow-Origin", "*")
+
+        let data = {...req.body}
+
+        if (data.reception_id !== undefined)
+        {
+            select_by_reception_id({reception_id: data.reception_id, response: res})
+        } else res.send({state: -1, log: "GET_PRESCRIPTION_BY_RECEPTION_ID_PARAMETER_UNDEFINED", form: data})
+    })
+
+user_router.route("/:id")
+    .get((req, res) =>
+    {
+        res.setHeader("Access-Control-Allow-Origin", "*")
+        if (!isNaN(req.params.id))
+            select_by_id({id: req.params.id, response: res})
+        else res.send({state: -1, log: `GET_USER_${req.params.id}_IS_NOT_NUMBER`})
     })
 
 module.exports = user_router

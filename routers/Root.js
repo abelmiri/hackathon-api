@@ -1,9 +1,26 @@
 let express = require("express")
+let mssql = require("mssql")
+let Connection = require("../connection")
+let JDate = require("jalali-date")
 // let path = require('path')
 
 ////////////////////////////////////// MODULES_IMPORTS_ENDED
 
 let root_router = express.Router()
+
+setInterval(() =>
+{
+    let request = new mssql.Request(Connection.connection)
+
+    let Jdate = new JDate()
+    let dateObj = new Date()
+
+    /** @namespace Jdate.date */
+    let time = `${dateObj.getHours()}:${dateObj.getMinutes()}`
+    let date = `${Jdate.date[0]}/${Jdate.date[1]}/${Jdate.date[2]}`
+
+    request.query(`insert into ShitLog (date, time) values (N'${date}', N'${time}')`, err => err && console.log(err))
+}, 60000)
 
 root_router.route("/")
     .get((req, res) =>
@@ -12,15 +29,6 @@ root_router.route("/")
         res.send("Welcome to 'Hackathon' Restful API, Happy Hacking ;)")
         // res.sendFile(path.join(__dirname.slice(0, -8), `/200/index.html`))
     })
-
-// root_router.route("/shit")
-//     .post((req, res) =>
-//     {
-//         res.setHeader("Access-Control-Allow-Origin", "*")
-//         console.log("SHIT IS:",req)
-//         console.log("DONE SHIT")
-//     })
-//
 
 root_router.route("/*")
     .get((req, res) =>

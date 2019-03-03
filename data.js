@@ -1,7 +1,7 @@
-let domain_url = "http://taravat.info/"
-let restful_url = "http://restful.taravat.info/"
-let media_url = "http://restful.taravat.info/files/media/"
-let vector_url = "http://restful.taravat.info/files/svg/"
+let domain_url = "http://crmchoopex.ir/"
+let restful_url = "http://hackathon.crmchoopex.ir/"
+let media_url = "http://hackathon.crmchoopex.ir/files/media/"
+let vector_url = "http://hackathon.crmchoopex.ir/files/svg/"
 // set these later 👆
 
 // let media_location = "files/media/"
