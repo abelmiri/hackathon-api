@@ -62,6 +62,19 @@ const select_by_personnel_id = ({personnel_id, response}) =>
     })
 }
 
+const set_is_done_by_id = ({id, is_done, response}) =>
+{
+    let request = new mssql.Request(Connection.connection)
+    request.query(`update Prescription set is_done = N'${is_done}' where id = N'${id}'`, (error0) =>
+    {
+        if (error0) response.send({state: -2, log: "DATA_BASE_ERROR", form: error0})
+        else
+        {
+            response.send({state: 1, log: "SET_IS_DONE_SUCCESSFUL", form: null})
+        }
+    })
+}
+
 const select_by_reception_id = ({reception_id, response}) =>
 {
     let request = new mssql.Request(Connection.connection)
@@ -93,6 +106,7 @@ module.exports =
         select: select,
         select_by_id: select_by_id,
         insert: insert,
+        set_is_done_by_id: set_is_done_by_id,
         select_by_personnel_id: select_by_personnel_id,
         select_by_reception_id: select_by_reception_id,
     }

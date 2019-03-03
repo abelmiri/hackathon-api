@@ -7,7 +7,7 @@ let user_router = express.Router()
 
 ////////////////////////////////////// ROUTERS_CONFIG_ENDED
 
-const {select, select_by_personnel_id, insert} = require("../functions/nurse_patient")
+const {select, select_by_type, insert} = require("../functions/present_log")
 
 ////////////////////////////////////// FUNCTION_CALLS_ENDED
 
@@ -24,27 +24,30 @@ user_router.route("/")
 
         let data = {...req.body}
 
-        if (data.personnel_id !== undefined && data.reception_id !== undefined)
+        if (data.personnel_id !== undefined && data.reception_id !== undefined && data.type !== undefined)
         {
             insert({
                 personnel_id: data.personnel_id,
                 reception_id: data.reception_id,
+                type: data.type,
                 response: res,
+                // Optional Data
+                description: data.description,
             })
-        } else res.send({state: -1, log: "CREATE_NURSE_PATIENT_PARAMETERS_UNDEFINED", form: data})
+        } else res.send({state: -1, log: "CREATE_PRESENT_LOG_PARAMETERS_UNDEFINED", form: data})
     })
 
-user_router.route("/personnel_id")
+user_router.route("/type")
     .post((req, res) =>
     {
         res.setHeader("Access-Control-Allow-Origin", "*")
 
         let data = {...req.body}
 
-        if (data.personnel_id !== undefined)
+        if (data.type !== undefined)
         {
-            select_by_personnel_id({personnel_id: data.personnel_id, response: res})
-        } else res.send({state: -1, log: "GET_NURSE_PATIENT_BY_PERSONNEL_ID_PARAMETER_UNDEFINED", form: data})
+            select_by_type({type: data.type, response: res})
+        } else res.send({state: -1, log: "GET_PRESENT_LOG_BY_TYPE_PARAMETER_UNDEFINED", form: data})
     })
 
 module.exports = user_router

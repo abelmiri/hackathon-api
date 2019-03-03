@@ -20,7 +20,7 @@ setInterval(() =>
     let date = `${Jdate.date[0]}/${Jdate.date[1]}/${Jdate.date[2]}`
 
     request.query(`insert into ShitLog (date, time) values (N'${date}', N'${time}')`, err => err && console.log(err))
-}, 60000)
+}, 3600000)
 
 root_router.route("/")
     .get((req, res) =>

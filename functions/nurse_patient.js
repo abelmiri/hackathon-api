@@ -45,8 +45,22 @@ const insert = ({personnel_id, reception_id, response}) =>
     })
 }
 
+const select_by_personnel_id = ({personnel_id, response}) =>
+{
+    let request = new mssql.Request(Connection.connection)
+    request.query(`select * from NursePatients where personnel_id = N'${personnel_id}'`, (error0, records0) =>
+    {
+        if (error0) response.send({state: -2, log: "DATA_BASE_ERROR", form: error0})
+        else
+        {
+            response.send({state: 1, log: "GET_NURSE_PATIENT_BY_PERSONNEL_ID", form: records0.recordset})
+        }
+    })
+}
+
 module.exports =
     {
         select: select,
         insert: insert,
+        select_by_personnel_id: select_by_personnel_id,
     }

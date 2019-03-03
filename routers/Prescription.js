@@ -7,7 +7,7 @@ let user_router = express.Router()
 
 ////////////////////////////////////// ROUTERS_CONFIG_ENDED
 
-const {select, select_by_id, insert, select_by_personnel_id, select_by_reception_id} = require("../functions/prescription")
+const {select, select_by_id, insert, set_is_done_by_id, select_by_personnel_id, select_by_reception_id} = require("../functions/prescription")
 
 ////////////////////////////////////// FUNCTION_CALLS_ENDED
 
@@ -69,6 +69,19 @@ user_router.route("/reception_id")
         {
             select_by_reception_id({reception_id: data.reception_id, response: res})
         } else res.send({state: -1, log: "GET_PRESCRIPTION_BY_RECEPTION_ID_PARAMETER_UNDEFINED", form: data})
+    })
+
+user_router.route("/is_done")
+    .post((req, res) =>
+    {
+        res.setHeader("Access-Control-Allow-Origin", "*")
+
+        let data = {...req.body}
+
+        if (data.is_done !== undefined && data.id !== undefined)
+        {
+            set_is_done_by_id({id: data.id, is_done: data.is_done, response: res})
+        } else res.send({state: -1, log: "SET_IS_DONE_IN_PRESCRIPTION_BY_ID_PARAMETER_UNDEFINED", form: data})
     })
 
 user_router.route("/:id")

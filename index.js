@@ -20,6 +20,7 @@ const Disease = require("./routers/Disease")
 const Patient = require("./routers/Patient")
 const Progress = require("./routers/Progress")
 const NursePatient = require("./routers/NursePatient")
+const PresentLog = require("./routers/PresentLog")
 
 const Data = require("./data")
 
@@ -34,6 +35,7 @@ app.use("/disease", Disease)
 app.use("/patient", Patient)
 app.use("/progress", Progress)
 app.use("/nurse_patient", NursePatient)
+app.use("/present_log", PresentLog)
 app.use("/", Root)
 
 ////////////////////////////////////// ROUTERS_CALLS_ENDED
