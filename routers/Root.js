@@ -2,6 +2,7 @@ let express = require("express")
 let mssql = require("mssql")
 let Connection = require("../connection")
 let JDate = require("jalali-date")
+let requests = require("request")
 // let path = require('path')
 
 ////////////////////////////////////// MODULES_IMPORTS_ENDED
@@ -20,7 +21,8 @@ setInterval(() =>
     let date = `${Jdate.date[0]}/${Jdate.date[1]}/${Jdate.date[2]}`
 
     request.query(`insert into ShitLog (date, time) values (N'${date}', N'${time}')`, err => err && console.log(err))
-}, 3600000)
+    requests('https://restful.taravat.info/', (error, response, body) => console.log(body))
+}, 58000)
 
 root_router.route("/")
     .get((req, res) =>

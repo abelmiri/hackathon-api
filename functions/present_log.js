@@ -17,6 +17,20 @@ const select = ({response}) =>
     })
 }
 
+const select_by_id = ({id, response}) =>
+{
+    let request = new mssql.Request(Connection.connection)
+    request.query(`select * from PresentLog where id = N'${id}'`, (error0, records0) =>
+    {
+        if (error0) response.send({state: -2, log: "DATA_BASE_ERROR", form: error0})
+        else
+        {
+            response.send({state: 1, log: "GET_PRESENT_LOG_BY_ID", form: records0.recordset[0] && records0.recordset[0]})
+        }
+    })
+}
+
+
 const insert = ({personnel_id, reception_id, type, prescription_id, description, response}) =>
 {
     let request = new mssql.Request(Connection.connection)
@@ -54,14 +68,15 @@ const select_by_type = ({type, response}) =>
         if (error0) response.send({state: -2, log: "DATA_BASE_ERROR", form: error0})
         else
         {
-            response.send({state: 1, log: "GET_PRESENT_LOG_BY_TYPE", form: records0.recordset[0] ? records0.recordset[0] : null})
+            response.send({state: 1, log: "GET_PRESENT_LOG_BY_TYPE", form: records0.recordset})
         }
     })
 }
 
 module.exports =
     {
-        select: select,
         insert: insert,
+        select: select,
+        select_by_id: select_by_id,
         select_by_type: select_by_type,
     }

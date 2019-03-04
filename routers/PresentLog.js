@@ -7,7 +7,7 @@ let user_router = express.Router()
 
 ////////////////////////////////////// ROUTERS_CONFIG_ENDED
 
-const {select, select_by_type, insert} = require("../functions/present_log")
+const {select, select_by_id, select_by_type, insert} = require("../functions/present_log")
 
 ////////////////////////////////////// FUNCTION_CALLS_ENDED
 
@@ -36,6 +36,15 @@ user_router.route("/")
                 description: data.description,
             })
         } else res.send({state: -1, log: "CREATE_PRESENT_LOG_PARAMETERS_UNDEFINED", form: data})
+    })
+
+user_router.route("/:id")
+    .get((req, res) =>
+    {
+        res.setHeader("Access-Control-Allow-Origin", "*")
+        if (!isNaN(req.params.id))
+            select_by_id({id: req.params.id, response: res})
+        else res.send({state: -1, log: `GET_PRESENT_LOG_${req.params.id}_IS_NOT_NUMBER`})
     })
 
 user_router.route("/type")
